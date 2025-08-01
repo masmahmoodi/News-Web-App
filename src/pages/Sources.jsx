@@ -4,7 +4,7 @@ export default function Sources() {
     const [sources, setSources] = React.useState([])
 
     React.useEffect(() => {
-        fetch(`http://newsapi.org/v2/top-headlines/sources?apiKey=${key}`)
+        fetch(`https://newsapi.org/v2/top-headlines/sources?apiKey=${key}`)
             .then(res => res.json())
             .then(data => setSources(data.sources))
     }, [])

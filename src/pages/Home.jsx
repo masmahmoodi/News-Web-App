@@ -9,8 +9,8 @@ export default function Home() {
 
   React.useEffect(() => {
     const url = searchTerm
-      ? `http://newsapi.org/v2/everything?q=${searchTerm}&apiKey=${key}`
-      : `http://newsapi.org/v2/top-headlines?country=us&apiKey=${key}`;
+      ? `https://newsapi.org/v2/everything?q=${searchTerm}&apiKey=${key}`
+      : `https://newsapi.org/v2/top-headlines?country=us&apiKey=${key}`;
 
     fetch(url)
       .then((res) => res.json())
