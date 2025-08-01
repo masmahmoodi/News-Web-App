@@ -1,13 +1,18 @@
-import React from "react"
-export default function Sources() {
-    const key = "bc2744d9a2b14eaf8a6ed3265ee20719"
-    const [sources, setSources] = React.useState([])
 
-    React.useEffect(() => {
-        fetch(`http://newsapi.org/v2/top-headlines/sources?apiKey=${key}`)
-            .then(res => res.json())
-            .then(data => setSources(data.sources))
-    }, [])
+import React, { useEffect, useState } from "react";
+import { getSources } from "../api/news"; // adjust path if needed
+
+export default function Sources() {
+    const [sources, setSources] = useState([]);
+
+    useEffect(() => {
+        async function fetchSources() {
+            const data = await getSources();
+            setSources(data);
+        }
+
+        fetchSources();
+    }, []);
 
     const sourcesToDisplay = sources.map((source, index) => (
         <div className="source-card" key={index}>
@@ -31,3 +36,5 @@ export default function Sources() {
         </div>
     )
 }
+
+
