@@ -4,27 +4,17 @@ import { NavLink, useLocation } from "react-router-dom";
 export default function Home() {
   const key = "bc2744d9a2b14eaf8a6ed3265ee20719";
   const [articles, setArticles] = React.useState([]);
-  const [loading, setLoading] = React.useState(true); // added
   const location = useLocation();
   const searchTerm = location.state?.searchTerm;
 
   React.useEffect(() => {
-    setLoading(true); // start loading when searchTerm changes
-
     const url = searchTerm
-      ? `https://newsapi.org/v2/everything?q=${searchTerm}&apiKey=${key}`
-      : `https://newsapi.org/v2/top-headlines?country=us&apiKey=${key}`;
+      ? `http://newsapi.org/v2/everything?q=${searchTerm}&apiKey=${key}`
+      : `http://newsapi.org/v2/top-headlines?country=us&apiKey=${key}`;
 
-    const proxyUrl = "https://api.allorigins.win/get?url=";
-    const encodedUrl = encodeURIComponent(url);
-
-    fetch(`${proxyUrl}${encodedUrl}`)
+    fetch(url)
       .then((res) => res.json())
-      .then((data) => {
-        const parsed = JSON.parse(data.contents);
-        setArticles(parsed.articles || []);
-        setLoading(false); // done loading
-      });
+      .then((data) => setArticles(data.articles || []));
   }, [searchTerm]);
 
   const articlesToDisplay = articles.map((article, index) => (
@@ -46,22 +36,21 @@ export default function Home() {
         </NavLink>
       </div>
     </div>
-  ));
+  ))
 
-  return (
-    <div className="articles-wrapper">
-      {loading ? (
-        <p style={{ textAlign: "center", color: "#ccc", marginTop: "2rem" }}>
-          Loading articles...
-        </p>
-      ) : articles.length === 0 ? (
-        <div className="no-results">
-          <h2>No articles found</h2>
-          <p>Try searching for a different topic or check your spelling.</p>
-        </div>
-      ) : (
-        articlesToDisplay
-      )}
-    </div>
-  );
+ 
+    return (
+  <div className="articles-wrapper">
+    {articles.length === 0 ? (
+      <div className="no-results">
+        <h2>No articles found</h2>
+        <p>Try searching for a different topic or check your spelling.</p>
+      </div>
+    ) : (
+      articlesToDisplay
+    )}
+  </div>
+)
+
+  
 }
