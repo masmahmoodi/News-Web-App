@@ -1,16 +1,20 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { fetchNews } from "../api/news"; // make sure this path is correct
 
 export default function Home() {
+  const key = "bc2744d9a2b14eaf8a6ed3265ee20719";
   const [articles, setArticles] = React.useState([]);
   const location = useLocation();
   const searchTerm = location.state?.searchTerm;
 
   React.useEffect(() => {
-    fetchNews(searchTerm).then((data) => {
-      setArticles(data.articles || []);
-    });
+    const url = searchTerm
+      ? `http://newsapi.org/v2/everything?q=${searchTerm}&apiKey=${key}`
+      : `http://newsapi.org/v2/top-headlines?country=us&apiKey=${key}`;
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setArticles(data.articles || []));
   }, [searchTerm]);
 
   const articlesToDisplay = articles.map((article, index) => (
@@ -32,18 +36,21 @@ export default function Home() {
         </NavLink>
       </div>
     </div>
-  ));
+  ))
 
-  return (
-    <div className="articles-wrapper">
-      {articles.length === 0 ? (
-        <div className="no-results">
-          <h2>No articles found</h2>
-          <p>Try searching for a different topic or check your spelling.</p>
-        </div>
-      ) : (
-        articlesToDisplay
-      )}
-    </div>
-  );
+ 
+    return (
+  <div className="articles-wrapper">
+    {articles.length === 0 ? (
+      <div className="no-results">
+        <h2>No articles found</h2>
+        <p>Try searching for a different topic or check your spelling.</p>
+      </div>
+    ) : (
+      articlesToDisplay
+    )}
+  </div>
+)
+
+  
 }
