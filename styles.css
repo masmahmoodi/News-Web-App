@@ -325,6 +325,16 @@ input[type="search"] {
 }
 
 
+.loading-indicator {
+  text-align: center;
+  color: #f0c040;
+  font-size: 1.5rem;
+  padding: 2rem;
+}
+
+
+
+
 /* Responsive tweaks */
 
 

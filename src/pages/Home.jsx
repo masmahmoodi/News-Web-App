@@ -1,30 +1,34 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React from "react"
+import { NavLink, useLocation } from "react-router-dom"
 
 export default function Home() {
-  const key = "b2aa7ffdd5b1356857bddfbb1eb64e94";
-  const [articles, setArticles] = React.useState([]);
-  const location = useLocation();
-  const searchTerm = location.state?.searchTerm;
+  const key = "b2aa7ffdd5b1356857bddfbb1eb64e94"
+  const [articles, setArticles] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(true)
+  const location = useLocation()
+  const searchTerm = location.state?.searchTerm
 
   React.useEffect(() => {
+    setIsLoading(true)
+
     const url = searchTerm
       ? `https://gnews.io/api/v4/search?q=${encodeURIComponent(searchTerm)}&token=${key}&lang=en`
-      : `https://gnews.io/api/v4/top-headlines?token=${key}&lang=en`;
+      : `https://gnews.io/api/v4/top-headlines?token=${key}&lang=en`
 
     fetch(url)
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          throw new Error(`HTTP error! status: ${res.status}`)
         }
-        return res.json();
+        return res.json()
       })
       .then((data) => setArticles(data.articles || []))
       .catch((err) => {
-        console.error("Failed to fetch articles:", err);
-        setArticles([]); // prevent hanging if API fails
-      });
-  }, [searchTerm]);
+        console.error("Failed to fetch articles:", err)
+        setArticles([])
+      })
+      .finally(() => setIsLoading(false))
+  }, [searchTerm])
 
   const articlesToDisplay = articles.map((article, index) => (
     <div className="article-card" key={index}>
@@ -45,11 +49,15 @@ export default function Home() {
         </NavLink>
       </div>
     </div>
-  ));
+  ))
 
   return (
     <div className="articles-wrapper">
-      {articles.length === 0 ? (
+      {isLoading ? (
+        <div className="loading-indicator">
+          <h2>Loading articles...</h2>
+        </div>
+      ) : articles.length === 0 ? (
         <div className="no-results">
           <h2>No articles found</h2>
           <p>Try searching for a different topic or check your spelling.</p>
@@ -58,5 +66,5 @@ export default function Home() {
         articlesToDisplay
       )}
     </div>
-  );
+  )
 }

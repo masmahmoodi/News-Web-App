@@ -1,19 +1,24 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
+import React from "react"
+import { Link, useNavigate, useLocation } from "react-router-dom"
+import logo from "../assets/logo.png"
 
 export default function Header() {
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = React.useState("")
+  const navigate = useNavigate()
+  const location = useLocation()
 
   function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
 
     if (searchTerm.trim()) {
-      navigate("/", { state: { searchTerm } });
-      setSearchTerm(""); // optional: clear input
+      navigate("/", { state: { searchTerm } })
+      setSearchTerm("")
     }
   }
+
+  // Determine whether to show the search bar
+  const hideSearchBar =
+    location.pathname.includes("/article") || location.pathname.includes("/sources")
 
   return (
     <nav className="navbar">
@@ -24,15 +29,18 @@ export default function Header() {
         <Link to=".">Home</Link>
         <Link to="sources">Sources</Link>
       </div>
-      <form className="search-form" onSubmit={handleSubmit}>
-        <input
-          type="search"
-          placeholder="Search news..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
+
+      {!hideSearchBar && (
+        <form className="search-form" onSubmit={handleSubmit}>
+          <input
+            type="search"
+            placeholder="Search news..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button type="submit">Search</button>
+        </form>
+      )}
     </nav>
-  );
+  )
 }

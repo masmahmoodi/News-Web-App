@@ -1,11 +1,11 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React from "react"
+import { useLocation } from "react-router-dom"
 
 export default function Article() {
-  const location = useLocation();
-  const article = location.state?.article;
+  const location = useLocation()
+  const article = location.state?.article
 
-  if (!article) return <p className="article-not-found">Article not found.</p>;
+  if (!article) return <p className="article-not-found">Article not found.</p>
 
   return (
     <div className="article-detail-wrapper">
@@ -33,5 +33,5 @@ export default function Article() {
         </a>
       </div>
     </div>
-  );
+  )
 }
