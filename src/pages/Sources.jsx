@@ -4,7 +4,7 @@ export default function Sources() {
   const key = "b2aa7ffdd5b1356857bddfbb1eb64e94"
   const [sources, setSources] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
-
+ 
   React.useEffect(() => {
     const url = `https://gnews.io/api/v4/top-headlines?token=${key}&lang=en`
 

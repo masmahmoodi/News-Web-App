@@ -4,6 +4,7 @@ import Home from "./pages/Home"
 import Sources from "./pages/Sources"
 import Article from "./pages/Article"
 import Layout from "./components/Layout"
+import NotFound from "./pages/NotFound"
 export default function App(){
   return (
     <BrowserRouter>
@@ -12,8 +13,10 @@ export default function App(){
         <Route  index element={<Home />}/>
         <Route  path="sources" element={<Sources />}/>
         <Route  path="article" element={<Article />}/>
+      <Route path="*" element={<NotFound />} />
       </Route>
       </Routes>
     </BrowserRouter>
   )
 }
+
