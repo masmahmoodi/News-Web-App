@@ -1,18 +1,17 @@
-import React from "react"
-import { Link, useNavigate } from "react-router-dom"
-import logo from "../assets/logo.png"
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 export default function Header() {
-  const [searchTerm, setSearchTerm] = React.useState("")
-  const navigate = useNavigate()
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const navigate = useNavigate();
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    // Navigate to Home with the search term in state
     if (searchTerm.trim()) {
-      navigate("/", { state: { searchTerm } })
-      setSearchTerm("") // optional: clear input
+      navigate("/", { state: { searchTerm } });
+      setSearchTerm(""); // optional: clear input
     }
   }
 
@@ -35,5 +34,5 @@ export default function Header() {
         <button type="submit">Search</button>
       </form>
     </nav>
-  )
+  );
 }
